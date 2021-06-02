@@ -1,0 +1,21 @@
+{
+    // 使用 IntelliSense 了解相关属性。
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug (J-Link)",
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "jlink",
+            "cwd": "${workspaceRoot}", //work directory
+            "executable": "${workspaceFolder}/build/F407_zgt6_Hal.elf",
+            "device": "STM32F407ZG",
+            "interface": "swd",
+            "preLaunchTask": "Build", //先运行Build任务
+            "ipAddress": null,
+            "serialNumber": null,
+        }
+    ]
+}

@@ -1,0 +1,32 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/Inc",
+                "${workspaceFolder}/Drivers/STM32F4xx_HAL_Driver/Inc",
+                "${workspaceFolder}/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy",
+                "${workspaceFolder}/Drivers/CMSIS/Device/ST/STM32F4xx/Include",
+                "${workspaceFolder}/Drivers/CMSIS/Include",
+                "${workspaceFolder}/Middlewares/Third_Party/FreeRTOS/Source/include",
+                "${workspaceFolder}/Drivers/CMSIS/RTOS2/Template/",
+                "${workspaceFolder}/FreeModbus",
+                "${workspaceFolder}/FreeModbus/port",
+                "${workspaceFolder}/FreeModbus/modbus/include",
+                "C:\\Program Files (x86)\\GNU Tools Arm Embedded\\9 2019-q4-major\\arm-none-eabi\\include"
+            ],
+            "defines": [
+                "USE_HAL_DRIVER",
+                "STM32F407xx",
+                "USE_HAL_UART_REGISTER_CALLBACKS=1",
+                "USE_HAL_TIM_REGISTER_CALLBACKS=1"
+            ],
+            "compilerPath": "C:\\Program Files (x86)\\GNU Tools Arm Embedded\\9 2019-q4-major\\bin\\arm-none-eabi-gcc.exe",
+            "cStandard": "c99",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-x86"
+        }
+    ],
+    "version": 4
+}

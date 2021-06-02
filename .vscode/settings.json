@@ -1,0 +1,53 @@
+{
+    "C_Cpp.updateChannel": "Insiders",
+    "http.proxySupport": "off",
+    "workbench.iconTheme": "vscode-icons", //取消左侧自动聚焦
+    "explorer.autoReveal": false,
+    "[c]": {
+        "editor.defaultFormatter": "ms-vscode.cpptools" //默认格式化工具
+    },
+    "[h]": {
+        "editor.defaultFormatter": "ms-vscode.cpptools" //默认格式化工具
+    },
+    "editor.formatOnSave": true, //文件保存时自动格式化
+    "editor.formatOnPaste": true, //代码粘贴时自动格式化
+    "editor.formatOnType": true, //自动格式化键入行
+    //"terminal.integrated.shell.windows": "C:\\Program Files\\Git\\git-bash.exe",
+    "terminal.integrated.shell.windows": "C:\\msys64\\msys2_shell.cmd",
+    "terminal.integrated.shellArgs.windows": [
+        "-defterm",
+        "-mingw64",
+        "-no-start",
+        "-here",
+        "-use-full-path" //使用系统环境变量
+    ],
+    "terminal.integrated.automationShell.windows": "C:\\Program Files\\Git\\git-bash.exe",
+    "stm32-for-vscode.openocdPath": "openocd",
+    "cortex-debug.openocdPath": "openocd",
+    "stm32-for-vscode.makePath": "make",
+    "stm32-for-vscode.armToolchainPath": "C:\\Program Files (x86)\\GNU Tools Arm Embedded\\9 2019-q4-major\\bin",
+    "files.associations": {
+        "array": "c",
+        "string": "c",
+        "string_view": "c",
+        "algorithm": "c",
+        "sstream": "c",
+        "*.tcc": "c",
+        "cmath": "c",
+        "numeric": "c",
+        "cinttypes": "c",
+        "cstdlib": "c",
+        "memory": "c",
+        "random": "c",
+        "limits": "c",
+        "port.h": "c",
+        "semphr.h": "c",
+        "mbconfig.h": "c",
+        "tim.h": "c",
+        "main.h": "c",
+        "mb.h": "c",
+        "usart.h": "c",
+        "gpio.h": "c",
+        "user_mb_app.h": "c"
+    }
+}
