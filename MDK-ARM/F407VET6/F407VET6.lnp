@@ -12,7 +12,6 @@
 "f407vet6\stm32f4xx_it.o"
 "f407vet6\stm32f4xx_hal_msp.o"
 "f407vet6\stm32f4xx_hal_timebase_tim.o"
-"f407vet6\pwmservodriver.o"
 "f407vet6\stm32f4xx_hal_rcc.o"
 "f407vet6\stm32f4xx_hal_rcc_ex.o"
 "f407vet6\stm32f4xx_hal_flash.o"
