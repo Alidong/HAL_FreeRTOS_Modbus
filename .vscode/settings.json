@@ -48,6 +48,7 @@
         "mb.h": "c",
         "usart.h": "c",
         "gpio.h": "c",
-        "user_mb_app.h": "c"
+        "user_mb_app.h": "c",
+        "ledcontrol.h": "c"
     }
 }

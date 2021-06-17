@@ -26,8 +26,11 @@ f407vet6\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h
 f407vet6\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash.h
 f407vet6\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ex.h
 f407vet6\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ramfunc.h
+f407vet6\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_i2c.h
+f407vet6\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_i2c_ex.h
 f407vet6\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h
 f407vet6\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h
+f407vet6\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h
 f407vet6\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 f407vet6\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 f407vet6\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
@@ -43,6 +46,8 @@ f407vet6\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
 f407vet6\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
 f407vet6\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h
 f407vet6\main.o: ../Inc/dma.h
+f407vet6\main.o: ../Inc/i2c.h
+f407vet6\main.o: ../Inc/spi.h
 f407vet6\main.o: ../Inc/tim.h
 f407vet6\main.o: ../Inc/usart.h
 f407vet6\main.o: ../Inc/gpio.h

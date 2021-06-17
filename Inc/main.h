@@ -29,6 +29,7 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
+#include "stm32f4xx_hal.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -58,6 +59,8 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define Flash_CS_Pin GPIO_PIN_4
+#define Flash_CS_GPIO_Port GPIOA
 #define RS4851_Pin GPIO_PIN_13
 #define RS4851_GPIO_Port GPIOB
 #define RS4852_Pin GPIO_PIN_14

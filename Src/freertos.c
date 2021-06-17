@@ -28,16 +28,18 @@
 /* USER CODE BEGIN Includes */
 #include "tim.h"
 #include "user_mb_app.h"
+#include <PWMServoDriver.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+extern SPI_HandleTypeDef hspi1;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+#define SERVOMIN  150 // this is the 'minimum' pulse length count (out of 4096)
+#define SERVOMAX  600 // this is the 'maximum' pulse length count (out of 4096)
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -61,9 +63,10 @@ const osThreadAttr_t SlaveTask_attributes = {
 /* Definitions for SYSTask */
 osThreadId_t SYSTaskHandle;
 const osThreadAttr_t SYSTask_attributes = {
-    .name = "SYSTask",
-    .priority = (osPriority_t)osPriorityNormal,
-    .stack_size = 128 * 4};
+  .name = "SYSTask",
+  .priority = (osPriority_t) osPriorityNormal,
+  .stack_size = 128 * 4
+};
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -80,8 +83,7 @@ void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
   * @param  None
   * @retval None
   */
-void MX_FREERTOS_Init(void)
-{
+void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN Init */
 
   /* USER CODE END Init */
@@ -115,6 +117,7 @@ void MX_FREERTOS_Init(void)
   /* USER CODE BEGIN RTOS_EVENTS */
   /* add events, ... */
   /* USER CODE END RTOS_EVENTS */
+
 }
 
 /* USER CODE BEGIN Header_StartSYSTask */
@@ -131,16 +134,10 @@ void StartSYSTask(void *argument)
   /* Infinite loop */
   for (;;)
   {
-    eMBMasterReqReadHoldingRegister(1, 0, 10, 100);
-    eMBMasterReqWriteMultipleHoldingRegister(1, 0, 10, data, 100);
+    // eMBMasterReqReadHoldingRegister(1, 0, 10, 100);
+    // eMBMasterReqWriteMultipleHoldingRegister(1, 0, 10, data, 100);
     HAL_GPIO_TogglePin(LED_2_GPIO_Port, LED_2_Pin);
-    for (int i = 0; i < 10; i++)
-    {
-      data[i]++;
-      printf("RegID=%d,Regdata=%d\r\n", i, Master_station.usMRegHoldBuf[0][i]);
-    }
-
-    osDelay(100);
+    osDelay(500);
   }
   /* USER CODE END StartSYSTask */
 }
