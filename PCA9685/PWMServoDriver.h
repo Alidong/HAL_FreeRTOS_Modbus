@@ -55,7 +55,7 @@
 #define MODE2_OCH 0x08    /**< Outputs change on ACK vs STOP */
 #define MODE2_INVRT 0x10  /**< Output logic state inverted */
 
-#define PCA9685_I2C_ADDRESS 0x40      /**< Default PCA9685 I2C Slave Address */
+#define PCA9685_I2C_ADDRESS 0x40<<1      /**< Default PCA9685 I2C Slave Address */
 #define FREQUENCY_OSCILLATOR 25000000 /**< Int. osc. frequency in datasheet */
 
 #define PCA9685_PRESCALE_MIN 3   /**< minimum prescale value */
