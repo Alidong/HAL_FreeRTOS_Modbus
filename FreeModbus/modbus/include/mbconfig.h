@@ -118,7 +118,7 @@ PR_BEGIN_EXTERN_C
 #define MB_MASTER_TIMEOUT_MS_RESPOND            (100 )
 /*! \brief The total slaves in Modbus Master system. Default 16.
  * \note : The slave ID must be continuous from 1.*/
-#define MB_MASTER_TOTAL_SLAVE_NUM               ( 16 )
+#define MB_MASTER_TOTAL_SLAVE_NUM               ( 1 )
 #endif
 
 #endif

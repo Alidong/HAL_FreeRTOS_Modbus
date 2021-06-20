@@ -51,12 +51,12 @@ extern SPI_HandleTypeDef hspi1;
 osThreadId_t MasterTaskHandle;
 const osThreadAttr_t MasterTask_attributes = {
     .name = "MasterTask",
-    .priority = (osPriority_t)osPriorityNormal,
+    .priority = (osPriority_t)osPriorityHigh,
     .stack_size = 128 * 4};
 osThreadId_t SlaveTaskHandle;
 const osThreadAttr_t SlaveTask_attributes = {
     .name = "SlaveTask",
-    .priority = (osPriority_t)osPriorityNormal,
+    .priority = (osPriority_t)osPriorityHigh,
     .stack_size = 128 * 4};
 /* USER CODE END Variables */
 /* Definitions for SYSTask */
@@ -155,12 +155,12 @@ void MasterTask(void *argument)
 void SlaveTask(void *argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
-  eMBInit(MB_RTU, 0x01, 2, 115200, MB_PAR_NONE);
+  eMBInit(MB_RTU, 0x01, 2, 9600, MB_PAR_NONE);
   eMBEnable();
   /* Infinite loop */
   for (;;)
   {
-    eMBPoll();
+    eMBPoll();   
   }
   /* USER CODE END StartDefaultTask */
 }
