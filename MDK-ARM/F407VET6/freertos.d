@@ -45,7 +45,6 @@ f407vet6\freertos.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 f407vet6\freertos.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 f407vet6\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h
 f407vet6\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h
-f407vet6\freertos.o: ../Inc/tim.h
 f407vet6\freertos.o: ..\FreeModbus\port\user_mb_app.h
 f407vet6\freertos.o: ..\FreeModbus\modbus\include\mb.h
 f407vet6\freertos.o: ..\FreeModbus\port\port.h
@@ -59,6 +58,7 @@ f407vet6\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
 f407vet6\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
 f407vet6\freertos.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\assert.h
 f407vet6\freertos.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\inttypes.h
+f407vet6\freertos.o: ../Inc/tim.h
 f407vet6\freertos.o: ..\FreeModbus\modbus\include\mbport.h
 f407vet6\freertos.o: ..\FreeModbus\modbus\include\mbproto.h
 f407vet6\freertos.o: ..\FreeModbus\modbus\include\mb_m.h

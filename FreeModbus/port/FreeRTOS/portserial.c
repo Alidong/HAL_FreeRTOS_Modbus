@@ -65,7 +65,7 @@ BOOL xMBPortSerialInit(UCHAR ucPORT, ULONG ulBaudRate, UCHAR ucDataBits,
         extern UART_HandleTypeDef huart1;
         serial = &huart1;
         MODBUS_DEBUG("Slave using uart1!\r\n");
-        
+
 #endif
     }
     else if (ucPORT == 2)
@@ -80,7 +80,7 @@ BOOL xMBPortSerialInit(UCHAR ucPORT, ULONG ulBaudRate, UCHAR ucDataBits,
     else if (ucPORT == 3)
     {
 #if defined(USING_UART3)
-      extern UART_HandleTypeDef huart3;
+        extern UART_HandleTypeDef huart3;
         serial = &huart3;
         MODBUS_DEBUG("Slave using uart3!\r\n");
 #endif
@@ -164,7 +164,8 @@ void vMBPortSerialEnable(BOOL xRxEnable, BOOL xTxEnable)
     {
         /* stop serial transmit */
         osEventFlagsClear(event_serial, EVENT_SERIAL_TRANS_START);
-        printf("ms=%.2f,fps=%.2f\r\n",__HAL_TIM_GetCounter(&htim7)/100.f,1000.f/(__HAL_TIM_GetCounter(&htim7)/100.f));
+        /*从接收到数据到发送完成所经过的时间*/
+        printf("ms=%.2f,fps=%.2f\r\n", __HAL_TIM_GetCounter(&htim7) / 100.f, 1000.f / (__HAL_TIM_GetCounter(&htim7) / 100.f));
     }
 }
 
@@ -242,7 +243,7 @@ static void serial_soft_trans_irq(void *parameter)
   */
 void Slave_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-  __HAL_TIM_SET_COUNTER(&htim7,0);
+    __HAL_TIM_SetCounter(&htim7, 0); //接收数据帧头时开启定时器
     int ch = -1;
     /*UART RX非空中断调用，并获取一帧数据*/
     while (1)

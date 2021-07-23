@@ -54,6 +54,6 @@ f407vet6\port_1.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
 f407vet6\port_1.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
 f407vet6\port_1.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\assert.h
 f407vet6\port_1.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\inttypes.h
-f407vet6\port_1.o: ../Inc/tim.h
 f407vet6\port_1.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h
 f407vet6\port_1.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h
+f407vet6\port_1.o: ../Inc/tim.h

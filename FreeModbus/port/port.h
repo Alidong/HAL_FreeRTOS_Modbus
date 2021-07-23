@@ -34,9 +34,9 @@
 #include "event_groups.h"
 #include <assert.h>
 #include <inttypes.h>
-#include "tim.h"
 #include "cmsis_os2.h"
 #include "cmsis_os.h"
+#include "tim.h"
 #define INLINE
 #define PR_BEGIN_EXTERN_C \
     extern "C"            \

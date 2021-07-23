@@ -26,8 +26,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "tim.h"
 #include "user_mb_app.h"
+#include "tim.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -37,8 +37,6 @@ extern SPI_HandleTypeDef hspi1;
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define SERVOMIN  150 // this is the 'minimum' pulse length count (out of 4096)
-#define SERVOMAX  600 // this is the 'maximum' pulse length count (out of 4096)
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -62,10 +60,9 @@ const osThreadAttr_t SlaveTask_attributes = {
 /* Definitions for SYSTask */
 osThreadId_t SYSTaskHandle;
 const osThreadAttr_t SYSTask_attributes = {
-  .name = "SYSTask",
-  .priority = (osPriority_t) osPriorityNormal,
-  .stack_size = 128 * 4
-};
+    .name = "SYSTask",
+    .priority = (osPriority_t)osPriorityNormal,
+    .stack_size = 128 * 4};
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -82,7 +79,8 @@ void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
   * @param  None
   * @retval None
   */
-void MX_FREERTOS_Init(void) {
+void MX_FREERTOS_Init(void)
+{
   /* USER CODE BEGIN Init */
 
   /* USER CODE END Init */
@@ -116,7 +114,6 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN RTOS_EVENTS */
   /* add events, ... */
   /* USER CODE END RTOS_EVENTS */
-
 }
 
 /* USER CODE BEGIN Header_StartSYSTask */
@@ -145,6 +142,7 @@ void StartSYSTask(void *argument)
 /* USER CODE BEGIN Application */
 void MasterTask(void *argument)
 {
+
   eMBMasterInit(MB_RTU, 3, 115200, MB_PAR_NONE);
   eMBMasterEnable();
   while (1)
@@ -155,12 +153,13 @@ void MasterTask(void *argument)
 void SlaveTask(void *argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
-  eMBInit(MB_RTU, 0x01, 2, 9600, MB_PAR_NONE);
+  HAL_TIM_Base_Start(&htim7); //开启帧率测试
+  eMBInit(MB_RTU, 0x01, 2, 115200, MB_PAR_NONE);
   eMBEnable();
   /* Infinite loop */
   for (;;)
   {
-    eMBPoll();   
+    eMBPoll();
   }
   /* USER CODE END StartDefaultTask */
 }

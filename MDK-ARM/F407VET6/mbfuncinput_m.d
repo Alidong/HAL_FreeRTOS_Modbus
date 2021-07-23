@@ -56,9 +56,9 @@ f407vet6\mbfuncinput_m.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/que
 f407vet6\mbfuncinput_m.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
 f407vet6\mbfuncinput_m.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\assert.h
 f407vet6\mbfuncinput_m.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\inttypes.h
-f407vet6\mbfuncinput_m.o: ../Inc/tim.h
 f407vet6\mbfuncinput_m.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h
 f407vet6\mbfuncinput_m.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h
+f407vet6\mbfuncinput_m.o: ../Inc/tim.h
 f407vet6\mbfuncinput_m.o: ..\FreeModbus\modbus\include\mb.h
 f407vet6\mbfuncinput_m.o: ..\FreeModbus\modbus\include\mbport.h
 f407vet6\mbfuncinput_m.o: ..\FreeModbus\modbus\include\mbproto.h
