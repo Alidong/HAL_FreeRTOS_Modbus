@@ -21,46 +21,42 @@
 
 #ifndef _PORT_H
 #define _PORT_H
-#include <stdio.h>
-#include <stdarg.h>
-#include <stdbool.h>
-#include <stm32f4xx_hal.h>
-#include "mbconfig.h"
-#include "main.h"
 #include "FreeRTOS.h"
+#include "cmsis_os.h"
+#include "cmsis_os2.h"
+#include "event_groups.h"
+#include "main.h"
+#include "mbconfig.h"
+#include "semphr.h"
 #include "task.h"
 #include "timers.h"
-#include "semphr.h"
-#include "event_groups.h"
 #include <assert.h>
 #include <inttypes.h>
-#include "cmsis_os2.h"
-#include "cmsis_os.h"
-#include "tim.h"
+#include <stdarg.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stm32f4xx_hal.h>
 #define INLINE
-#define PR_BEGIN_EXTERN_C \
-    extern "C"            \
-    {
+#define PR_BEGIN_EXTERN_C extern "C" {
 #define PR_END_EXTERN_C }
 /*IF DEBUG*/
-#define DEBUG 0
+#define DEBUG 1
 
 #if DEBUG == 1
-#define MODBUS_DEBUG(fmt, args...) fprintf(stderr, "  MODBUS_DEBUG(%s:%d):  \t" fmt, __func__, __LINE__, ##args)
-#else
-#define MODBUS_DEBUG(fmt, args...) \
-    do                             \
-    {                              \
-    } while (0)
+#define MODBUS_DEBUG(fmt, args...)                                             \
+  fprintf(stderr, "  MODBUS_DEBUG(%s:%d):  \t" fmt, __func__, __LINE__, ##args)
+#elif DEBUG == 0
+#define MODBUS_DEBUG(fmt, args...)                                             \
+  do {                                                                         \
+  } while (0)
 #endif
 
 #define ENTER_CRITICAL_SECTION() EnterCriticalSection()
 #define EXIT_CRITICAL_SECTION() ExitCriticalSection()
-typedef struct _serial_fifo
-{
-    /* software fifo */
-    volatile uint8_t *buffer;
-    volatile uint16_t put_index, get_index;
+typedef struct _serial_fifo {
+  /* software fifo */
+  volatile uint8_t *buffer;
+  volatile uint16_t put_index, get_index;
 } Serial_fifo;
 #define FIFO_SIZE_MAX 265
 typedef bool BOOL;
@@ -82,15 +78,15 @@ typedef int32_t LONG;
 #define FALSE 0
 #endif
 
-#define SLAVE_RS485_TX_MODE HAL_GPIO_WritePin(RS4851_GPIO_Port, RS4851_Pin, GPIO_PIN_SET)
-#define SLAVE_RS485_RX_MODE HAL_GPIO_WritePin(RS4851_GPIO_Port, RS4851_Pin, GPIO_PIN_RESET)
+#define SLAVE_RS485_TX_MODE HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, GPIO_PIN_SET)
+#define SLAVE_RS485_RX_MODE HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, GPIO_PIN_RESET)
 
-#define MASTER_RS485_TX_MODE HAL_GPIO_WritePin(RS4852_GPIO_Port, RS4852_Pin, GPIO_PIN_SET)
-#define MASTER_RS485_RX_MODE HAL_GPIO_WritePin(RS4852_GPIO_Port, RS4852_Pin, GPIO_PIN_RESET)
+#define MASTER_RS485_TX_MODE HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_SET)
+#define MASTER_RS485_RX_MODE                                                   \
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_RESET)
 
-#define USING_UART2
 #define USING_UART3
-
+#define USING_UART2
 void EnterCriticalSection(void);
 void ExitCriticalSection(void);
 void Put_in_fifo(Serial_fifo *buff, uint8_t *putdata, int length);

@@ -20,52 +20,60 @@
  */
 
 /* ----------------------- Modbus includes ----------------------------------*/
-#include "port.h"
 #include "mb.h"
 #include "mbport.h"
+#include "port.h"
 
 /* ----------------------- Variables ----------------------------------------*/
-static osEventFlagsId_t xSlaveOsEvent;
+static EventGroupHandle_t xSlaveOsEvent;
 /* ----------------------- Start implementation -----------------------------*/
-BOOL xMBPortEventInit(void)
-{
-    xSlaveOsEvent = osEventFlagsNew(NULL);
-    if (xSlaveOsEvent == NULL)
-    {
-        MODBUS_DEBUG("xMBPortEventInit ERR=%d!\r\n", xSlaveOsEvent);
-    }
-    return TRUE;
+BOOL xMBPortEventInit(void) {
+  xSlaveOsEvent = xEventGroupCreate();
+  if (xSlaveOsEvent != NULL) {
+    MODBUS_DEBUG("xMBPortEventInit Success!\r\n");
+  } else {
+    MODBUS_DEBUG("xMBPortEventInit Faild !\r\n");
+    return FALSE;
+  }
+  return TRUE;
 }
 
-BOOL xMBPortEventPost(eMBEventType eEvent)
-{
-    MODBUS_DEBUG("set enevt=%d!\r\n", eEvent);
-    osEventFlagsSet(xSlaveOsEvent, eEvent);
-    return TRUE;
+BOOL xMBPortEventPost(eMBEventType eEvent) {
+  BaseType_t flag;
+  MODBUS_DEBUG("Post eEvent=%d!\r\n", eEvent);
+  if (xSlaveOsEvent != NULL) {
+    if (IS_IRQ()) {
+      xEventGroupSetBitsFromISR(xSlaveOsEvent, eEvent, &flag);
+    } else {
+      xEventGroupSetBits(xSlaveOsEvent, eEvent);
+    }
+  }
+  return TRUE;
 }
 
-BOOL xMBPortEventGet(eMBEventType *eEvent)
-{
-    uint32_t recvedEvent;
-    /* waiting forever OS event */
-    MODBUS_DEBUG("wait for enevt...\r\n");
-    recvedEvent = osEventFlagsWait(xSlaveOsEvent, EV_READY | EV_FRAME_RECEIVED | EV_EXECUTE | EV_FRAME_SENT,
-                                   osFlagsWaitAny, osWaitForever);
-    MODBUS_DEBUG("recieved enevt=%d\r\n", recvedEvent);
-    switch (recvedEvent)
-    {
-    case EV_READY:
-        *eEvent = EV_READY;
-        break;
-    case EV_FRAME_RECEIVED:
-        *eEvent = EV_FRAME_RECEIVED;
-        break;
-    case EV_EXECUTE:
-        *eEvent = EV_EXECUTE;
-        break;
-    case EV_FRAME_SENT:
-        *eEvent = EV_FRAME_SENT;
-        break;
-    }
-    return TRUE;
+BOOL xMBPortEventGet(eMBEventType *eEvent) {
+  uint32_t recvedEvent;
+  /* waiting forever OS event */
+  recvedEvent = xEventGroupWaitBits(xSlaveOsEvent,
+                                    EV_READY | EV_FRAME_RECEIVED | EV_EXECUTE |
+                                        EV_FRAME_SENT, /* 接收任务感兴趣的事件
+                                                        */
+                                    pdTRUE,  /* 退出时清除事件?? */
+                                    pdFALSE, /* 满足感兴趣的所有事?? */
+                                    portMAX_DELAY); /* 指定超时事件,无限等待 */
+  switch (recvedEvent) {
+  case EV_READY:
+    *eEvent = EV_READY;
+    break;
+  case EV_FRAME_RECEIVED:
+    *eEvent = EV_FRAME_RECEIVED;
+    break;
+  case EV_EXECUTE:
+    *eEvent = EV_EXECUTE;
+    break;
+  case EV_FRAME_SENT:
+    *eEvent = EV_FRAME_SENT;
+    break;
+  }
+  return TRUE;
 }

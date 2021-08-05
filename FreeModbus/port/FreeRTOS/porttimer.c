@@ -31,50 +31,36 @@ static TimerHandle_t timer;
 static void prvvTIMERExpiredISR(void);
 static void timer_timeout_ind(TIM_HandleTypeDef *xTimer);
 /* ----------------------- Start implementation -----------------------------*/
-BOOL xMBPortTimersInit(USHORT usTim1Timerout50us)
-{
-    /*
-    Freertos can't create timer in isr!
-    So,I use hardware timer here! ！Freq=1Mhz
-    */
-    timer = xTimerCreate("Slave timer",
-                         (50 * usTim1Timerout50us) / (1000 * 1000 / configTICK_RATE_HZ) + 1,
-                         pdFALSE, (void *)2, timer_timeout_ind);
+BOOL xMBPortTimersInit(USHORT usTim1Timerout50us) {
+  /*
+  Freertos can't create timer in isr!
+  So,I use hardware timer here! ！Freq=1Mhz
+  */
+  timer = xTimerCreate(
+      "Slave timer",
+      (50 * usTim1Timerout50us) / (1000 * 1000 / configTICK_RATE_HZ) + 1,
+      pdFALSE, (void *)2, timer_timeout_ind);
+  if (timer != NULL)
     return TRUE;
 }
 
-void vMBPortTimersEnable()
-{
-    MODBUS_DEBUG("Start slave timer!\r\n");
-    if (IS_IRQ())
-    {
-        xTimerStartFromISR((TimerHandle_t)timer, 0);
-    }
-    else
-    {
-        xTimerStart((TimerHandle_t)timer, 0);
-    }
+void vMBPortTimersEnable() {
+  if (IS_IRQ()) {
+    xTimerStartFromISR((TimerHandle_t)timer, 0);
+  } else {
+    xTimerStart((TimerHandle_t)timer, 0);
+  }
 }
 
-void vMBPortTimersDisable()
-{
-    MODBUS_DEBUG("Stop timer!\r\n");
-    if (IS_IRQ())
-    {
-        xTimerStopFromISR((TimerHandle_t)timer, 0);
-    }
-    else
-    {
-        xTimerStop((TimerHandle_t)timer, 0);
-    }
+void vMBPortTimersDisable() {
+  if (IS_IRQ()) {
+    xTimerStopFromISR((TimerHandle_t)timer, 0);
+  } else {
+    xTimerStop((TimerHandle_t)timer, 0);
+  }
 }
 
-void prvvTIMERExpiredISR(void)
-{
-    (void)pxMBPortCBTimerExpired();
-}
-static void timer_timeout_ind(TIM_HandleTypeDef *xTimer)
-{
-    MODBUS_DEBUG("Timer callback!\r\n");
-    prvvTIMERExpiredISR();
+void prvvTIMERExpiredISR(void) { (void)pxMBPortCBTimerExpired(); }
+static void timer_timeout_ind(TIM_HandleTypeDef *xTimer) {
+  prvvTIMERExpiredISR();
 }

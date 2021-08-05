@@ -49,19 +49,19 @@ extern SPI_HandleTypeDef hspi1;
 osThreadId_t MasterTaskHandle;
 const osThreadAttr_t MasterTask_attributes = {
     .name = "MasterTask",
-    .priority = (osPriority_t)osPriorityHigh,
+    .priority = (osPriority_t)osPriorityNormal,
     .stack_size = 128 * 4};
 osThreadId_t SlaveTaskHandle;
 const osThreadAttr_t SlaveTask_attributes = {
     .name = "SlaveTask",
-    .priority = (osPriority_t)osPriorityHigh,
+    .priority = (osPriority_t)osPriorityNormal,
     .stack_size = 128 * 4};
 /* USER CODE END Variables */
 /* Definitions for SYSTask */
 osThreadId_t SYSTaskHandle;
 const osThreadAttr_t SYSTask_attributes = {
     .name = "SYSTask",
-    .priority = (osPriority_t)osPriorityNormal,
+    .priority = (osPriority_t)osPriorityNormal+10,
     .stack_size = 128 * 4};
 
 /* Private function prototypes -----------------------------------------------*/
@@ -82,7 +82,11 @@ void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 void MX_FREERTOS_Init(void)
 {
   /* USER CODE BEGIN Init */
-
+  HAL_TIM_Base_Start(&htim7); //开启帧率测试
+  eMBMasterInit(MB_RTU, 3, 115200, MB_PAR_NONE);
+  eMBMasterEnable();
+  eMBInit(MB_RTU, 0x01, 2, 115200, MB_PAR_NONE);
+  eMBEnable();
   /* USER CODE END Init */
 
   /* USER CODE BEGIN RTOS_MUTEX */
@@ -107,6 +111,7 @@ void MX_FREERTOS_Init(void)
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
+
   MasterTaskHandle = osThreadNew(MasterTask, NULL, &MasterTask_attributes);
   SlaveTaskHandle = osThreadNew(SlaveTask, NULL, &SlaveTask_attributes);
   /* USER CODE END RTOS_THREADS */
@@ -130,10 +135,12 @@ void StartSYSTask(void *argument)
   /* Infinite loop */
   for (;;)
   {
-    // eMBMasterReqReadHoldingRegister(1, 0, 10, 100);
-    // eMBMasterReqWriteMultipleHoldingRegister(1, 0, 10, data, 100);
+    //eMBMasterReqReadHoldingRegister(1, 0, 10, 100);
+    eMBMasterReqWriteMultipleHoldingRegister(1, 0, 10, data, 100);
     HAL_GPIO_TogglePin(LED_2_GPIO_Port, LED_2_Pin);
-    osDelay(500);
+    for(uint8_t i=0;i<sizeof(data)/sizeof(uint16_t);i++)
+      data[i]++;
+    osDelay(50);
   }
   /* USER CODE END StartSYSTask */
 }
@@ -142,10 +149,7 @@ void StartSYSTask(void *argument)
 /* USER CODE BEGIN Application */
 void MasterTask(void *argument)
 {
-
-  eMBMasterInit(MB_RTU, 3, 115200, MB_PAR_NONE);
-  eMBMasterEnable();
-  while (1)
+   for (;;)
   {
     eMBMasterPoll();
   }
@@ -153,9 +157,6 @@ void MasterTask(void *argument)
 void SlaveTask(void *argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
-  HAL_TIM_Base_Start(&htim7); //开启帧率测试
-  eMBInit(MB_RTU, 0x01, 2, 115200, MB_PAR_NONE);
-  eMBEnable();
   /* Infinite loop */
   for (;;)
   {

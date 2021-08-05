@@ -9,7 +9,7 @@
 
 /* -----------------------Slave Defines -------------------------------------*/
 #define S_DISCRETE_INPUT_START 0
-#define S_DISCRETE_INPUT_NDISCRETES 16
+#define S_DISCRETE_INPUT_NDISCRETES 64
 #define S_COIL_START 0
 #define S_COIL_NCOILS 64
 #define S_REG_INPUT_START 0
@@ -37,7 +37,7 @@ extern Slave_data Slave_station;
 
 /* -----------------------Master Defines -------------------------------------*/
 #define M_DISCRETE_INPUT_START 0
-#define M_DISCRETE_INPUT_NDISCRETES 16
+#define M_DISCRETE_INPUT_NDISCRETES 64
 #define M_COIL_START 0
 #define M_COIL_NCOILS 64
 #define M_REG_INPUT_START 0
