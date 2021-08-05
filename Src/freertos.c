@@ -61,7 +61,7 @@ const osThreadAttr_t SlaveTask_attributes = {
 osThreadId_t SYSTaskHandle;
 const osThreadAttr_t SYSTask_attributes = {
     .name = "SYSTask",
-    .priority = (osPriority_t)osPriorityNormal+10,
+    .priority = (osPriority_t)osPriorityNormal-10,
     .stack_size = 128 * 4};
 
 /* Private function prototypes -----------------------------------------------*/
@@ -140,7 +140,7 @@ void StartSYSTask(void *argument)
     HAL_GPIO_TogglePin(LED_2_GPIO_Port, LED_2_Pin);
     for(uint8_t i=0;i<sizeof(data)/sizeof(uint16_t);i++)
       data[i]++;
-    osDelay(50);
+    osDelay(100);
   }
   /* USER CODE END StartSYSTask */
 }

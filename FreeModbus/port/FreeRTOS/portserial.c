@@ -135,6 +135,8 @@ BOOL xMBPortSerialInit(UCHAR ucPORT, ULONG ulBaudRate, UCHAR ucDataBits,
 }
 
 void vMBPortSerialEnable(BOOL xRxEnable, BOOL xTxEnable) {
+    __HAL_UART_CLEAR_FLAG(serial,UART_FLAG_RXNE);
+   __HAL_UART_CLEAR_FLAG(serial,UART_FLAG_TC);
   if (xRxEnable) {
     /* enable RX interrupt */
     __HAL_UART_ENABLE_IT(serial, UART_IT_RXNE);

@@ -33,10 +33,9 @@ static USHORT usT35TimeOut50us;
 static TimerHandle_t timer = NULL;
 static void prvvTIMERExpiredISR(void);
 static void timer_timeout_ind(TimerHandle_t xTimer);
-
+static BaseType_t  pxHigherPriorityTaskWoken;
 /* ----------------------- static functions ---------------------------------*/
 static void prvvTIMERExpiredISR(void);
-
 /* ----------------------- Start implementation -----------------------------*/
 BOOL xMBMasterPortTimersInit(USHORT usTimeOut50us) {
   /* backup T35 ticks */
@@ -59,23 +58,25 @@ void vMBMasterPortTimersT35Enable() {
   // MODBUS_DEBUG("Start master timer!\r\n");
      uint32_t timer_tick =
       (50 * usT35TimeOut50us) / (1000 * 1000 / configTICK_RATE_HZ) + 1;
+ //printf("Set Timre=%d ms\r\n", timer_tick);
   /* Set current timer mode, don't change it.*/
   vMBMasterSetCurTimerMode(MB_TMODE_T35);
   if (IS_IRQ()) {
-    xTimerChangePeriodFromISR((TimerHandle_t)timer, timer_tick, 0);
+    xTimerChangePeriodFromISR((TimerHandle_t)timer, timer_tick, &pxHigherPriorityTaskWoken);
   } else {
     xTimerChangePeriod((TimerHandle_t)timer, timer_tick, 0);
   }
 }
 
 void vMBMasterPortTimersConvertDelayEnable() {
+  
    uint32_t timer_tick =
       MB_MASTER_DELAY_MS_CONVERT * configTICK_RATE_HZ / 1000;
-
+  //printf("Set Timre=%d ms\r\n", timer_tick);
   /* Set current timer mode, don't change it.*/
   vMBMasterSetCurTimerMode(MB_TMODE_CONVERT_DELAY);
   if (IS_IRQ()) {
-    xTimerChangePeriodFromISR((TimerHandle_t)timer, timer_tick, 0);
+    xTimerChangePeriodFromISR((TimerHandle_t)timer, timer_tick, &pxHigherPriorityTaskWoken);
   } else {
     xTimerChangePeriod((TimerHandle_t)timer, timer_tick, 0);
   }
@@ -84,11 +85,11 @@ void vMBMasterPortTimersConvertDelayEnable() {
 void vMBMasterPortTimersRespondTimeoutEnable() {
    uint32_t timer_tick =
       MB_MASTER_TIMEOUT_MS_RESPOND * configTICK_RATE_HZ / 1000;
-
+  //printf("Set %d\r\n", timer_tick);
   /* Set current timer mode, don't change it.*/
   vMBMasterSetCurTimerMode(MB_TMODE_RESPOND_TIMEOUT);
   if (IS_IRQ()) {
-    xTimerChangePeriodFromISR((TimerHandle_t)timer, timer_tick, 0);
+    xTimerChangePeriodFromISR((TimerHandle_t)timer, timer_tick, &pxHigherPriorityTaskWoken);
   } else {
     xTimerChangePeriod((TimerHandle_t)timer, timer_tick, 0);
   }
@@ -96,6 +97,7 @@ void vMBMasterPortTimersRespondTimeoutEnable() {
 
 void vMBMasterPortTimersDisable() {
   // MODBUS_DEBUG("Stop master timer!\r\n");
+  //printf("STop!\r\n");
   if (IS_IRQ()) {
     xTimerStopFromISR((TimerHandle_t)timer, 0);
   } else {
@@ -107,7 +109,9 @@ void prvvTIMERExpiredISR(void) { (void)pxMBMasterPortCBTimerExpired(); }
 
 static void timer_timeout_ind(xTimerHandle xTimer) {
   // MODBUS_DEBUG(" Master Timer callback!\r\n");
+  //printf("%.2f ms\r\n",(float)__HAL_TIM_GetCounter(&htim7)/100.f);
   prvvTIMERExpiredISR();
+  
 }
 
 #endif

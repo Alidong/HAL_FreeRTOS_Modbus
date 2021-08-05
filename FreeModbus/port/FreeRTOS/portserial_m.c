@@ -141,23 +141,22 @@ BOOL xMBMasterPortSerialInit(UCHAR ucPORT, ULONG ulBaudRate, UCHAR ucDataBits,
 }
 
 void vMBMasterPortSerialEnable(BOOL xRxEnable, BOOL xTxEnable) {
-  BaseType_t flag;
-
+  /*这一步不能省略，需要提前清理掉标志位，否则接收会有问题*/
+  __HAL_UART_CLEAR_FLAG(serial,UART_FLAG_RXNE);
+   __HAL_UART_CLEAR_FLAG(serial,UART_FLAG_TC);
   if (xRxEnable == pdTRUE) {
     MODBUS_DEBUG("RS485_RX_MODE\r\n");
-         /* switch 485 to receive mode */
+   /* switch 485 to receive mode */
     MASTER_RS485_RX_MODE;
     /* enable RX interrupt */
     __HAL_UART_ENABLE_IT(serial, UART_IT_RXNE);
 
-
   } else {
     MODBUS_DEBUG("RS485_TX_MODE\r\n");
-        /* switch 485 to transmit mode */
+    /* switch 485 to transmit mode */
     MASTER_RS485_TX_MODE;
     /* disable RX interrupt */
     __HAL_UART_DISABLE_IT(serial, UART_IT_RXNE);
-
   }
   if (xTxEnable == pdTRUE) {
     /* start serial transmit */
@@ -168,7 +167,6 @@ void vMBMasterPortSerialEnable(BOOL xRxEnable, BOOL xTxEnable) {
 }
 
 void vMBMasterPortClose(void) {
-  // serial->parent.close(&(serial->parent));
   __HAL_UART_DISABLE(serial);
 }
 
@@ -235,14 +233,14 @@ static void Master_RxCpltCallback(struct __UART_HandleTypeDef *huart) {
   }
   prvvUARTRxISR();
 }
-/*UART发送一个数�??*/
+/*UART发送一个数据*/
 static int stm32_putc(CHAR c) {
   serial->Instance->DR = c;
-  while (!(serial->Instance->SR & UART_FLAG_TXE))
+  while (!(serial->Instance->SR & UART_FLAG_TC))
     ;
   return TRUE;
 }
-/*UART接收一个数�??*/
+/*UART接收一个数据*/
 static int stm32_getc(void) {
   int ch;
   ch = -1;

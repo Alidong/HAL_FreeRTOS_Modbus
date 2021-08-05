@@ -40,7 +40,7 @@
 #define PR_BEGIN_EXTERN_C extern "C" {
 #define PR_END_EXTERN_C }
 /*IF DEBUG*/
-#define DEBUG 1
+#define DEBUG 0
 
 #if DEBUG == 1
 #define MODBUS_DEBUG(fmt, args...)                                             \
